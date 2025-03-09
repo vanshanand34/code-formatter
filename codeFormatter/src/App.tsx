@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Container, Button, Row, Col } from 'react-bootstrap';
+import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { useState } from 'react';
 import axios from "axios";
 import "./App.css";
@@ -9,6 +9,7 @@ function App() {
 
   const [fileType, setFileType] = useState("py");
   const [codeText, setCodeText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,6 +19,7 @@ function App() {
 
   function formatCode() {
     const apiUrl = "http://localhost:8080/fileContent";
+    setIsLoading(true);
     axios.post(
       apiUrl, codeText,
       {
@@ -27,10 +29,12 @@ function App() {
       response => {
         console.log(response);
         setCodeText(response.data);
+        setIsLoading(false);
       }
     ).catch(
       error => {
         console.error(error);
+        setIsLoading(false);
       }
     )
   }
@@ -75,7 +79,16 @@ function App() {
                   />
                 </Form.Group>
 
-                <Button type="submit">Format Code</Button>
+                <Button type="submit">
+                  Format Code
+                  {
+                    isLoading &&
+                    <Spinner animation="border" role="status" size='sm' className='mx-2'>
+                    </Spinner>
+                  }
+
+                </Button>
+
 
               </Form>
             </Col>
