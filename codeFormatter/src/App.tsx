@@ -1,47 +1,48 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
-import { useState } from 'react';
-import axios from "axios";
+// import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
+// import { useState } from 'react';
+// import axios from "axios";
+import { Editor } from './Editor';
 import "./App.css";
 
 
 function App() {
 
-  const [fileType, setFileType] = useState("py");
-  const [codeText, setCodeText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [fileType, setFileType] = useState("py");
+  // const [codeText, setCodeText] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    console.log(fileType, codeText);
-    formatCode();
-  }
+  // function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  //   e.preventDefault();
+  //   console.log(fileType, codeText);
+  //   formatCode();
+  // }
 
-  function formatCode() {
-    const apiUrl = "http://localhost:8080/fileContent";
-    setIsLoading(true);
-    axios.post(
-      apiUrl, codeText,
-      {
-        headers: { 'Content-Type': 'text/plain', 'filetype': fileType }
-      }
-    ).then(
-      response => {
-        console.log(response);
-        setCodeText(response.data);
-        setIsLoading(false);
-      }
-    ).catch(
-      error => {
-        console.error(error);
-        setIsLoading(false);
-      }
-    )
-  }
+  // function formatCode() {
+  //   const apiUrl = "http://localhost:8080/fileContent";
+  //   setIsLoading(true);
+  //   axios.post(
+  //     apiUrl, codeText,
+  //     {
+  //       headers: { 'Content-Type': 'text/plain', 'filetype': fileType }
+  //     }
+  //   ).then(
+  //     response => {
+  //       console.log(response);
+  //       setCodeText(response.data);
+  //       setIsLoading(false);
+  //     }
+  //   ).catch(
+  //     error => {
+  //       console.error(error);
+  //       setIsLoading(false);
+  //     }
+  //   )
+  // }
 
   return (
     <>
-      <Container className="py-4">
+      {/* <Container className="py-4">
 
         <Container className="py-4 text-center">
           <h2>Code Formatter</h2>
@@ -86,7 +87,6 @@ function App() {
                     <Spinner animation="border" role="status" size='sm' className='mx-2'>
                     </Spinner>
                   }
-
                 </Button>
 
 
@@ -95,7 +95,8 @@ function App() {
           </Row>
 
         </Container>
-      </Container>
+      </Container> */}
+      <Editor/>
     </>
   );
 }

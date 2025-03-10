@@ -1,0 +1,15 @@
+/* textarea.form-control{
+    border:0.5px solid brown !important;
+} */
+
+textarea.form-control:focus{
+    box-shadow: none;
+}
+
+textarea.form-control{
+    min-height: 50vh;
+}
+
+textarea{
+    field-sizing: content;
+}
