@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
-import { execSync } from "child_process";
+import { exec } from "child_process";
 import { PORT } from "./config.js";
 
 
@@ -38,10 +38,20 @@ function writeDataToFile(data, filePath) {
 }
 
 function runFormattingCmd(fileName) {
-    const commandText = `npx dprint fmt  ${fileName}`;
-    const output = execSync(commandText, (err, stdout, stderr) => {
-        console.log(err, stdout, stderr);
-    });
+    // console.log("inside rfc")
+    try {
+        const commandText = `npx dprint fmt  ${fileName}`;
+        const output = execSync(commandText);
+        exec(commandText, (error) => {
+            if(error){
+                return false;
+            }
+        });
+        // console.log("output : ", output.toString());
+    } catch (error) {
+        console.log("Error in formatting : ", error.stderr?.toString() || error.message);
+    }
+
 }
 
 
@@ -65,14 +75,31 @@ app.get('/fileContent', (request, response) => {
 app.post('/fileContent', (request, response) => {
 
     const fileType = request.headers.filetype;
-    if (!fileType || !fileType in ["py", "html", "css", "js", "jsx", "tsx", "ts"]) {
+    if (!fileType || !["py", "html", "css", "js", "jsx", "tsx", "ts"].includes(fileType)) {
         return response.status(400).send("Invalid file type");
     }
     const fileName = 'codeFiles/custom.' + fileType;
     const filePath = path.join(process.cwd(), fileName);
 
     writeDataToFile(request.body, filePath);
-    runFormattingCmd(fileName);
-    addFileContentToResponse(response, filePath);
+    try{
+        const commandText = `npx dprint fmt  ${fileName}`;
+        // const output = execSync(commandText);
+        exec(commandText, (error) => {
+            if(error){
+                return response.status(400).json({"error": "Formatting Error", "message": error.message});
+            }
+            const formattedCode = fs.readFileSync(fileName, { encoding: 'utf-8' });
+            console.log("returning formatted code");
+            return response.json({formattedCode});
+        });
+    }catch(error){
+        return response.status(400).send(error.message);
+    }
+    
+    // runFormattingCmd(fileName);
+    // setTimeout(() => {
+    //     addFileContentToResponse(response, filePath);
+    // }, 5000);
     return response;
 })

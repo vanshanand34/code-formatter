@@ -1,63 +1,17 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-const Dashboard: React.FC = () => {
-    const [data, setData] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    useEffect(() => {
-        axios.get("https://api.example.com/data").then(response => {
-            setData(response.data);
-            setLoading(false);
-        }).catch(error => {
-            setError("Error fetching data");
-            setLoading(false);
-        });
-    }, []);
-    const handleClick = (id: number) => {
-        alert(`Item clicked: ${id}`);
-    };
+import React, { useState } from "react";
+const App: React.FC = () => {
+    const [count, setCount] = useState<number>(0);
+    const handleIncrement = () => setCount(count + 1);
+    const handleDecrement = () => setCount(count - 1);
+    const handleReset = () => setCount(0);
     return (
-        <div style={{ padding: "20px", backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
-            <h1 style={{ textAlign: "center", color: "#333" }}>Dashboard</h1>
-            {loading
-                ? <p>Loading...</p>
-                : error
-                ? <p style={{ color: "red" }}>{error}</p>
-                : (
-                    <ul style={{ listStyle: "none", padding: 0 }}>
-                        {data.map(item => (
-                            <li
-                                key={item.id}
-                                style={{
-                                    background: "#fff",
-                                    margin: "10px 0",
-                                    padding: "10px",
-                                    borderRadius: "5px",
-                                    boxShadow: "0px 0px 5px rgba(0,0,0,0.1)",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <span>{item.name}</span>
-                                <button
-                                    onClick={() => handleClick(item.id)}
-                                    style={{
-                                        background: "#007bff",
-                                        color: "#fff",
-                                        border: "none",
-                                        padding: "5px 10px",
-                                        borderRadius: "3px",
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    View
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <h1>Counter App (TSX)</h1>
+            <p>Count: {count}</p>
+            <button onClick={handleIncrement}>Increment</button>
+            <button onClick={handleDecrement}>Decrement</button>
+            <button onClick={handleReset}>Reset</button>
         </div>
     );
 };
-export default Dashboard;
+export default App;

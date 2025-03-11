@@ -22,6 +22,7 @@ export function Editor() {
     function formatCode() {
         const apiUrl = "http://localhost:8080/fileContent";
         setIsLoading(true);
+        setFormattedCode("");
         axios.post(
             apiUrl, codeText,
             {
@@ -30,7 +31,7 @@ export function Editor() {
         ).then(
             response => {
                 console.log(response);
-                setFormattedCode(response.data);
+                setFormattedCode(response.data?.formattedCode);
                 setIsLoading(false);
             }
         ).catch(
@@ -47,7 +48,11 @@ export function Editor() {
             <Container className='mb-4 bg-primary text-white min-vw-100 d-flex justify-content-between'>
                 <h2 className='p-4'>Code Formatter</h2>
                 <div className='p-4'>
-                    <Button variant='outine-secondary' className='bg-secondary text-white' onClick={handleSubmit}>Format Code</Button>
+                    <Button 
+                        variant='outine-secondary' 
+                        className='bg-secondary text-white' 
+                        onClick={handleSubmit}
+                    >Format Code</Button>
                 </div>
             </Container>
             <Container className='py-4'>
@@ -95,7 +100,7 @@ export function Editor() {
                                 {/* <Form.Label>Paste your code here</Form.Label> */}
                                 <Form.Control
                                     as="textarea"
-                                    rows={10}
+                                    // rows={10}
                                     className="w-100 h-100 border-0"
                                     value={codeText}
                                     placeholder='Paste your code here'
@@ -112,7 +117,7 @@ export function Editor() {
                             <Form.Group className="h-100 w-100 p-2" controlId="exampleForm.ControlTextarea2">
                                 <Form.Control
                                     as="textarea"
-                                    rows={10}
+                                    // rows={10}
                                     className="w-100 h-100 border-0"
                                     value={formattedCode}
                                     placeholder='Formatted code'

@@ -23,9 +23,7 @@
   "malva": {
   },
   "markup": {
-    "singleBodyPosition": "nextLine",
-    "indentWidth": 4,
-    "nextControlFlowPosition": "nextLine"
+    "indentWidth": 4
   },
   "yaml": {
   },

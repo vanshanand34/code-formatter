@@ -1,23 +1,13 @@
-function changeText() {
-    document.getElementById("text").innerHTML = "Text changed!";
-    document.getElementById("text").style.color = "red";
+function greet(name) {
+    return "Hello, " + name + "!";
 }
-function addListItem() {
-    let ul = document.getElementById("list");
-    let li = document.createElement("li");
-    li.appendChild(document.createTextNode("New Item"));
-    ul.appendChild(li);
+const square = (n) => {
+    return n * n;
+};
+function main() {
+    let x = 3;
+    let y = 8;
+    console.log("Square of", x, "is", square(x));
+    console.log(greet("John"));
 }
-function toggleVisibility() {
-    let para = document.getElementById("text");
-    if (para.style.display === "none") {
-        para.style.display = "block";
-    }
-    else {
-        para.style.display = "none";
-    }
-}
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("toggleBtn").addEventListener("click", toggleVisibility);
-    document.getElementById("addItemBtn").addEventListener("click", addListItem);
-});
+main();
